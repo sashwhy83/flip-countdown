@@ -1,47 +1,40 @@
-function pad(num) {
-  return String(num).padStart(2, '0');
+function pad(n) {
+  return String(n).padStart(2, '0');
 }
 
-function flip(unitId, newValue) {
+function updateUnit(unitId, value) {
   const unit = document.getElementById(unitId);
   const top = unit.querySelector('.top');
   const bottom = unit.querySelector('.bottom');
-  const flipTop = unit.querySelector('.flip-top');
-  const flipBottom = unit.querySelector('.flip-bottom');
 
-  if (top.textContent === newValue) return;
+  if (top.textContent === value) return;
 
-  flipTop.textContent = top.textContent;
-  flipBottom.textContent = newValue;
+  top.textContent = value;
+  bottom.textContent = value;
 
-  flipTop.classList.add('animate');
-  flipBottom.classList.add('animate');
+  const card = unit.querySelector('.card');
+  card.classList.add('flip');
 
   setTimeout(() => {
-    top.textContent = newValue;
-    bottom.textContent = newValue;
-    flipTop.classList.remove('animate');
-    flipBottom.classList.remove('animate');
+    card.classList.remove('flip');
+  }, 600);
+}
+
+function startCountdown(seconds) {
+  const end = Date.now() + seconds * 1000;
+
+  const interval = setInterval(() => {
+    const remaining = Math.max(0, Math.floor((end - Date.now()) / 1000));
+    const hrs = Math.floor(remaining / 3600);
+    const mins = Math.floor((remaining % 3600) / 60);
+    const secs = remaining % 60;
+
+    updateUnit('hours', pad(hrs));
+    updateUnit('minutes', pad(mins));
+    updateUnit('seconds', pad(secs));
+
+    if (remaining <= 0) clearInterval(interval);
   }, 1000);
 }
 
-function startCountdown(secondsLeft) {
-  const end = Date.now() + secondsLeft * 1000;
-
-  const timer = setInterval(() => {
-    const now = Date.now();
-    const distance = Math.max(0, end - now);
-
-    const hours = Math.floor(distance / 1000 / 60 / 60);
-    const minutes = Math.floor((distance / 1000 / 60) % 60);
-    const seconds = Math.floor((distance / 1000) % 60);
-
-    flip('hours', pad(hours));
-    flip('minutes', pad(minutes));
-    flip('seconds', pad(seconds));
-
-    if (distance <= 0) clearInterval(timer);
-  }, 1000);
-}
-
-startCountdown(2 * 60 * 60); // 2 hour countdown
+startCountdown(2 * 60 * 60); // 2 hours
