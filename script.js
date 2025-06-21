@@ -1,40 +1,55 @@
-function pad(n) {
-  return String(n).padStart(2, '0');
+function pad2(num) {
+  return String(num).padStart(2, '0');
 }
 
-function updateUnit(unitId, value) {
-  const unit = document.getElementById(unitId);
-  const top = unit.querySelector('.top');
-  const bottom = unit.querySelector('.bottom');
+function flipDigit(id, newDigit) {
+  const digit = document.getElementById(id);
+  const top = digit.querySelector('.top');
+  const bottom = digit.querySelector('.bottom');
 
-  if (top.textContent === value) return;
+  if (top.textContent === newDigit) return;
 
-  top.textContent = value;
-  bottom.textContent = value;
+  const oldDigit = top.textContent;
+  top.textContent = oldDigit;
+  bottom.textContent = newDigit;
 
-  const card = unit.querySelector('.card');
-  card.classList.add('flip');
+  top.classList.add('animate');
+  bottom.classList.add('animate');
 
   setTimeout(() => {
-    card.classList.remove('flip');
-  }, 600);
-}
-
-function startCountdown(seconds) {
-  const end = Date.now() + seconds * 1000;
-
-  const interval = setInterval(() => {
-    const remaining = Math.max(0, Math.floor((end - Date.now()) / 1000));
-    const hrs = Math.floor(remaining / 3600);
-    const mins = Math.floor((remaining % 3600) / 60);
-    const secs = remaining % 60;
-
-    updateUnit('hours', pad(hrs));
-    updateUnit('minutes', pad(mins));
-    updateUnit('seconds', pad(secs));
-
-    if (remaining <= 0) clearInterval(interval);
+    top.textContent = newDigit;
+    top.classList.remove('animate');
+    bottom.classList.remove('animate');
   }, 1000);
 }
 
-startCountdown(2 * 60 * 60); // 2 hours
+function updateClock(h, m, s) {
+  const [h1, h2] = pad2(h);
+  const [m1, m2] = pad2(m);
+  const [s1, s2] = pad2(s);
+
+  flipDigit('h1', h1);
+  flipDigit('h2', h2);
+  flipDigit('m1', m1);
+  flipDigit('m2', m2);
+  flipDigit('s1', s1);
+  flipDigit('s2', s2);
+}
+
+function startCountdown(durationSeconds) {
+  let remaining = durationSeconds;
+
+  const timer = setInterval(() => {
+    const hours = Math.floor(remaining / 3600);
+    const minutes = Math.floor((remaining % 3600) / 60);
+    const seconds = remaining % 60;
+
+    updateClock(hours, minutes, seconds);
+
+    if (remaining <= 0) clearInterval(timer);
+    remaining--;
+  }, 1000);
+}
+
+// Start 2 hour countdown
+startCountdown(2 * 60 * 60);
