@@ -1,87 +1,63 @@
 body {
-  background: #f7d6e1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
   margin: 0;
-  font-family: 'Poppins', sans-serif;
-}
-
-.countdown-container {
+  background: #f7d6e1;
+  height: 100vh;
   display: flex;
-  gap: 20px;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Fredoka', sans-serif;
 }
 
-.flip-unit {
+.countdown {
+  display: flex;
+  gap: 40px;
+}
+
+.unit .card {
+  position: relative;
+  width: 160px;
+  height: 200px;
   perspective: 1000px;
 }
 
-.flip-card {
-  position: relative;
-  width: 120px;
-  height: 160px;
-}
-
-.top,
-.bottom,
-.flip-top,
-.flip-bottom {
+.card .top,
+.card .bottom {
+  background: #e6a9c1;
+  color: white;
+  font-size: 120px;
+  text-align: center;
+  line-height: 100px;
+  border-radius: 10px;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.15);
   position: absolute;
   width: 100%;
   height: 50%;
   overflow: hidden;
-  background: #e6a9c1;
-  color: white;
-  font-size: 60px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 6px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-  backface-visibility: hidden;
 }
 
-.top {
+.card .top {
   top: 0;
   border-bottom: 1px solid rgba(255,255,255,0.3);
-  z-index: 3;
+  transform-origin: bottom;
+  z-index: 2;
 }
 
-.bottom {
+.card .bottom {
   bottom: 0;
-  border-top: 1px solid rgba(255,255,255,0.3);
+  border-top: 1px solid rgba(255,255,255,0.2);
+  transform-origin: top;
   z-index: 1;
 }
 
-.flip-top {
-  top: 0;
-  transform-origin: bottom;
-  z-index: 5;
-  transform: rotateX(0deg);
-}
-
-.flip-bottom {
-  bottom: 0;
-  transform-origin: top;
-  z-index: 2;
-  transform: rotateX(90deg);
-}
-
-.flip-top.animate {
-  animation: flipTop 0.5s ease-in forwards;
-}
-
-.flip-bottom.animate {
-  animation: flipBottom 0.5s ease-out 0.5s forwards;
+.card.flip .top {
+  animation: flipTop 0.6s forwards;
 }
 
 @keyframes flipTop {
-  0% { transform: rotateX(0deg); }
-  100% { transform: rotateX(-90deg); }
-}
-
-@keyframes flipBottom {
-  0% { transform: rotateX(90deg); }
-  100% { transform: rotateX(0deg); }
+  0% {
+    transform: rotateX(0deg);
+  }
+  100% {
+    transform: rotateX(-90deg);
+  }
 }
