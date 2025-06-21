@@ -10,48 +10,43 @@ body {
 
 .countdown-container {
   display: flex;
-  gap: 15px;
+  gap: 20px;
 }
 
 .flip-unit {
+  perspective: 1000px;
+}
+
+.card {
   position: relative;
   width: 120px;
   height: 160px;
-  perspective: 800px;
 }
 
-.upper-card, .lower-card {
-  background: #e6a9c1;
-  color: #fff;
-  font-size: 70px;
-  text-align: center;
-  line-height: 160px;
-  border-radius: 10px;
-  box-shadow: 0 6px 10px rgba(0,0,0,0.1);
+.card-face {
   position: absolute;
   width: 100%;
-  height: 100%;
+  height: 50%;
+  overflow: hidden;
+  background-color: #e6a9c1;
+  color: white;
+  font-size: 70px;
+  text-align: center;
+  line-height: 80px;
   backface-visibility: hidden;
+  transform-style: preserve-3d;
+  border-radius: 10px;
+  box-shadow: 0 6px 10px rgba(0,0,0,0.15);
 }
 
-.lower-card {
+.top {
+  top: 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.bottom {
+  bottom: 0;
+  line-height: 80px;
   transform: rotateX(180deg);
-}
-
-.flip-unit.flip .upper-card {
-  animation: flipTop 0.7s forwards;
-}
-
-.flip-unit.flip .lower-card {
-  animation: flipBottom 0.7s forwards;
-}
-
-@keyframes flipTop {
-  0% { transform: rotateX(0deg); }
-  100% { transform: rotateX(-180deg); }
-}
-
-@keyframes flipBottom {
-  0% { transform: rotateX(180deg); }
-  100% { transform: rotateX(0deg); }
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
 }
